@@ -14,13 +14,13 @@ model User {
   name String 
   role String
   franchisee Franchisee? @relation(fields: [franchiseeId], references: [id])
-  franchiseeId Int? @unique
+  franchiseeId String? @unique
 
   @@map("user")
 }
 
 model Franchisee{
-  id Int @id @default(autoincrement())
+  id String @id 
   personalEmail String
   cnpj String
   phoneNumber String
