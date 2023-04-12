@@ -6,3 +6,25 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id
+  email String @unique
+  password String
+  name String 
+  role String
+  franchisee Franchisee? @relation(fields: [franchiseeId], references: [id])
+  franchiseeId Int? @unique
+
+  @@map("user")
+}
+
+model Franchisee{
+  id Int @id @default(autoincrement())
+  personalEmail String
+  cnpj String
+  phoneNumber String
+  city String
+  address String
+  user User?
+}
