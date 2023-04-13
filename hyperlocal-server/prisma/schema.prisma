@@ -27,4 +27,6 @@ model Franchisee{
   phoneNumber String @map("phone_number")
   city String
   address String
+
+  @@map("franchisee")
 }
