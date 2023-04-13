@@ -13,18 +13,18 @@ model User {
   password String
   name String 
   role String
-  franchisee Franchisee? @relation(fields: [franchiseeId], references: [id])
-  franchiseeId String? @unique
+  franchisee Franchisee?
 
   @@map("user")
 }
 
 model Franchisee{
-  id String @id 
-  personalEmail String
-  cnpj String
-  phoneNumber String
+  id String @id
+  user   User @relation(fields: [userId], references: [id])
+  userId String  @unique
+  personalEmail String @unique@map("personal_email")
+  cnpj String @unique
+  phoneNumber String @map("phone_number")
   city String
   address String
-  user User?
 }
