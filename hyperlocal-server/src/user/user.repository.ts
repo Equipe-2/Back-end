@@ -27,4 +27,15 @@ export class UserRepository {
       throw new Exception(Exceptions.DatabaseException)
     }
   }
+
+  async findOne(userId: string): Promise<IUser> {
+    try {
+      const uniqueUser = await this.prisma.user.findUnique({
+        where: {id: userId},
+      });
+      return uniqueUser;
+    } catch (error) {
+      throw new Exception(Exceptions.DatabaseException)
+    }
+  }
 }

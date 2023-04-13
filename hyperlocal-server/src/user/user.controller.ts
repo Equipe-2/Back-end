@@ -11,8 +11,9 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { HandleException } from 'src/utils/exceptions/exceptionHandler';
+import { Exceptions, HandleException } from 'src/utils/exceptions/exceptionHandler';
 import { IUser } from './entities/user.entity';
+import { Exception } from 'src/utils/exceptions/exception';
 
 @Controller('user')
 @ApiTags('User')
@@ -40,8 +41,16 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<IUser> {
+    try {
+      const uniqueUser = await this.userService.findOne(id);
+      if(!uniqueUser){
+        throw new Exception(Exceptions.NotFoundData, "This ID could not be found in the database")
+      }
+      return uniqueUser;
+    } catch (error) {
+      HandleException(error);
+    }
   }
 
   @Patch(':id')

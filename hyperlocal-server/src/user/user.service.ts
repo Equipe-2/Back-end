@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { hash } from 'bcrypt';
 import { UserRepository } from './user.repository';
 import { IUser } from './entities/user.entity';
+import { Exception } from 'src/utils/exceptions/exception';
+import { Exceptions } from 'src/utils/exceptions/exceptionHandler';
 
 @Injectable()
 export class UserService {
@@ -24,8 +26,9 @@ export class UserService {
     return allUsers;
   }
 
-  findOne(id: string) {
-    return;
+  async findOne(id: string): Promise<IUser> {
+    const uniqueUser = this.userRepository.findOne(id)
+    return uniqueUser;
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
