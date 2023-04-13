@@ -7,6 +7,6 @@ import { DatabaseModule } from 'src/prisma/prisma.module';
 @Module({
   imports: [DatabaseModule],
   controllers: [UserController],
-  providers: [UserService, UserRepository]
+  providers: [UserService, UserRepository],
 })
 export class UserModule {}
