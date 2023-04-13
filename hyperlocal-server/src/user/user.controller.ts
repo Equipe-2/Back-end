@@ -20,17 +20,23 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
     try {
-      return this.userService.create(createUserDto);
+      const createdUser = await this.userService.create(createUserDto);
+      return createdUser
     } catch (error) {
       HandleException(error);
     }
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(): Promise<IUser[]> {
+    try {
+      const allUsers = await this.userService.findAll();
+      return allUsers
+    } catch (error) {
+      HandleException(error);
+    }
   }
 
   @Get(':id')

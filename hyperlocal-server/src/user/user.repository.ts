@@ -18,4 +18,13 @@ export class UserRepository {
       throw new Exception(Exceptions.DatabaseException);
     }
   }
+
+  async findAll(): Promise<IUser[]> {
+    try {
+      const allUsers = await this.prisma.user.findMany();
+      return allUsers; 
+    } catch (error) {
+      throw new Exception(Exceptions.DatabaseException)
+    }
+  }
 }
