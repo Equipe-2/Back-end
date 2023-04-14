@@ -25,7 +25,13 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
     try {
-      const 
+      const emailRegistered = await this.userService.findByEmail(createUserDto.email);
+      if (emailRegistered){
+        throw new Exception(
+          Exceptions.InvalidData,
+          'This email is already registered',
+        );
+      }      
       const createdUser = await this.userService.create(createUserDto);
       return createdUser
     } catch (error) {
