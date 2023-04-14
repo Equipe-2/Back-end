@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionHandler';
 import { IUser } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -35,6 +36,19 @@ export class UserRepository {
       });
       return uniqueUser;
     } catch (error) {
+      throw new Exception(Exceptions.DatabaseException)
+    }
+  }
+
+  async update(userId, updateUserDto: UpdateUserDto): Promise<IUser> {
+    try {
+      const updatedUser = this.prisma.user.update({
+        where: {id: userId},
+        data: updateUserDto,
+      })
+      return updatedUser
+    } catch (error) {
+      
       throw new Exception(Exceptions.DatabaseException)
     }
   }

@@ -41,11 +41,11 @@ export class UserController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<IUser> {
+  async findOne(@Param('id') userId: string): Promise<IUser> {
     try {
-      const uniqueUser = await this.userService.findOne(id);
+      const uniqueUser = await this.userService.findOne(userId);
       if(!uniqueUser){
-        throw new Exception(Exceptions.NotFoundData, "This ID could not be found in the database")
+        throw new Exception(Exceptions.NotFoundData, "This user could not be found in the database")
       }
       return uniqueUser;
     } catch (error) {
@@ -54,18 +54,27 @@ export class UserController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<IUser> {
-    return this.userService.update(id, updateUserDto);
+  async update(@Param('id') userId: string, @Body() updateUserDto: UpdateUserDto): Promise<IUser> {
+    try {
+      const uniqueUser = await this.userService.findOne(userId);
+      if(!uniqueUser){
+        throw new Exception(Exceptions.InvalidData, 'User could not be updated')
+      }
+    const updatedUser = this.userService.update(userId, updateUserDto);
+    return updatedUser;
+    } catch (error) {
+      HandleException(error);
+    }
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<String> {
+  async remove(@Param('id') userId: string): Promise<String> {
     try {
-      const uniqueUser = await this.userService.findOne(id);
+      const uniqueUser = await this.userService.findOne(userId);
       if(!uniqueUser){
         throw new Exception(Exceptions.InvalidData, 'User could not be deleted')
       }
-      const deletedUser = await this.userService.remove(id);
+      await this.userService.remove(userId);
       return 'User deleted successfully';
     } catch (error) {
       HandleException(error);

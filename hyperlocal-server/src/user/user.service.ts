@@ -32,7 +32,8 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<IUser> {
-    return ;
+    const updatedUser = await this.userRepository.update(id, updateUserDto);
+    return updatedUser;
   }
 
   async remove(id: string): Promise<IUser> {
