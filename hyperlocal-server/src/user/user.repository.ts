@@ -38,9 +38,9 @@ export class UserRepository {
 
   async findAll(): Promise<IUser[]> {
     try {
-      const allUsers = await this.prisma.user.findMany(
-        
-      );
+      const allUsers = await this.prisma.user.findMany({
+        include:{franchisee: true}
+      });
       return allUsers; 
     } catch (error) {
       throw new Exception(Exceptions.DatabaseException)
@@ -51,6 +51,7 @@ export class UserRepository {
     try {
       const uniqueUser = await this.prisma.user.findUnique({
         where: {id: userId},
+        include:{franchisee: true}
       });
       return uniqueUser;
     } catch (error) {
@@ -90,6 +91,7 @@ export class UserRepository {
       const updatedUser = this.prisma.user.update({
         where: {id: userId},
         data: updateUserDto,
+        include:{franchisee: true}
       })
       return updatedUser
     } catch (error) {
