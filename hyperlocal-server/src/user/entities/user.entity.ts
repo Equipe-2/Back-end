@@ -1,4 +1,4 @@
-import { IFranchisee } from "./franchisee-user.entity";
+import { IFranchisee } from './franchisee-user.entity';
 
 export interface IUser {
   id: string;
@@ -6,5 +6,5 @@ export interface IUser {
   password: string;
   name: string;
   role: string;
-  franchisse?: IFranchisee
+  franchisse?: IFranchisee;
 }

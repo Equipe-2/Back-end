@@ -4,7 +4,7 @@ import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionHandler';
 import { IUser } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { IFranchisee} from './entities/franchisee-user.entity';
+import { IFranchisee } from './entities/franchisee-user.entity';
 
 @Injectable()
 export class UserRepository {
@@ -21,89 +21,95 @@ export class UserRepository {
     }
   }
 
-  async createFranchisee( userData: IUser, franchiseeData: IFranchisee) {
+  async createFranchisee(userData: IUser, franchiseeData: IFranchisee) {
     try {
       const createdUser = await this.prisma.user.create({
-        data: userData
+        data: userData,
       });
       await this.prisma.franchisee.create({
-        data: franchiseeData
+        data: franchiseeData,
       });
       return createdUser;
-    } catch (error) {console.log(error)
+    } catch (error) {
+      console.log(error);
 
-      throw new Exception(Exceptions.DatabaseException)
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
   async findAll(): Promise<IUser[]> {
     try {
       const allUsers = await this.prisma.user.findMany({
-        include:{franchisee: true}
+        include: { franchisee: true },
       });
-      return allUsers; 
+      return allUsers;
     } catch (error) {
-      throw new Exception(Exceptions.DatabaseException)
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
   async findOne(userId: string): Promise<IUser> {
     try {
       const uniqueUser = await this.prisma.user.findUnique({
-        where: {id: userId},
-        include:{franchisee: true}
+        where: { id: userId },
+        include: { franchisee: true },
       });
       return uniqueUser;
     } catch (error) {
-      throw new Exception(Exceptions.DatabaseException)
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
   async findByEmail(userEmail: string): Promise<IUser> {
     try {
-      const foundUser = this.prisma.user.findUnique({where: {email: userEmail}});
+      const foundUser = this.prisma.user.findUnique({
+        where: { email: userEmail },
+      });
       return foundUser;
     } catch (error) {
-     throw new Exception(Exceptions.DatabaseException); 
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
   async findFranchiseeByEmail(userEmail: string): Promise<IFranchisee> {
     try {
-      const foundFranchisee = this.prisma.franchisee.findUnique({where: {personalEmail: userEmail}});
+      const foundFranchisee = this.prisma.franchisee.findUnique({
+        where: { personalEmail: userEmail },
+      });
       return foundFranchisee;
     } catch (error) {
-     throw new Exception(Exceptions.DatabaseException); 
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
-  async findFranchiseeByCpnj(franchiseeCnpj: string): Promise<IFranchisee>{
+  async findFranchiseeByCpnj(franchiseeCnpj: string): Promise<IFranchisee> {
     try {
-      const foundFranchisee = this.prisma.franchisee.findUnique({where: {cnpj: franchiseeCnpj}});
+      const foundFranchisee = this.prisma.franchisee.findUnique({
+        where: { cnpj: franchiseeCnpj },
+      });
       return foundFranchisee;
     } catch (error) {
-     throw new Exception(Exceptions.DatabaseException); 
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
   async update(userId, updateUserDto: UpdateUserDto): Promise<IUser> {
     try {
       const updatedUser = this.prisma.user.update({
-        where: {id: userId},
+        where: { id: userId },
         data: updateUserDto,
-        include:{franchisee: true}
-      })
-      return updatedUser
+        include: { franchisee: true },
+      });
+      return updatedUser;
     } catch (error) {
-      
-      throw new Exception(Exceptions.DatabaseException)
+      throw new Exception(Exceptions.DatabaseException);
     }
   }
 
   async remove(userId: string): Promise<IUser> {
     try {
       const deletedUser = this.prisma.user.delete({
-        where: {id: userId},
+        where: { id: userId },
       });
       return deletedUser;
     } catch (error) {

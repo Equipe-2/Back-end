@@ -19,28 +19,37 @@ export class UserService {
     createUserDto.password = hashedPassword;
     const user = { ...createUserDto, id: userId };
     const createdUser = await this.userRepository.create(user);
-    delete createdUser.password 
+    delete createdUser.password;
     return createdUser;
   }
 
-  async createFranchisee(createFranchiseeDto: CreateFranchiseeUserDto){
+  async createFranchisee(createFranchiseeDto: CreateFranchiseeUserDto) {
     const userId = uuidv4();
     const userPassoword = await generateRandomPassword(6);
     const hashedPassword = await hash(userPassoword, 10);
-    const userData = {id: userId, password: hashedPassword, name: createFranchiseeDto.name, email: createFranchiseeDto.personalEmail, role: "franchisee"};
-    delete createFranchiseeDto.name
-    const franchiseeData = {...createFranchiseeDto, userId: userId};
-    const createdUser = await this.userRepository.createFranchisee(userData, franchiseeData)
-    return createdUser
+    const userData = {
+      id: userId,
+      password: hashedPassword,
+      name: createFranchiseeDto.name,
+      email: createFranchiseeDto.personalEmail,
+      role: 'franchisee',
+    };
+    delete createFranchiseeDto.name;
+    const franchiseeData = { ...createFranchiseeDto, userId: userId };
+    const createdUser = await this.userRepository.createFranchisee(
+      userData,
+      franchiseeData,
+    );
+    return createdUser;
   }
 
-  async findAll(){
-    const allUsers = await this.userRepository.findAll()
+  async findAll() {
+    const allUsers = await this.userRepository.findAll();
     return allUsers;
   }
 
   async findOne(id: string): Promise<IUser> {
-    const uniqueUser = this.userRepository.findOne(id)
+    const uniqueUser = this.userRepository.findOne(id);
     return uniqueUser;
   }
 
@@ -50,13 +59,15 @@ export class UserService {
   }
 
   async findFranchiseeByEmail(userEmail: string): Promise<IFranchisee> {
-    const foundFranchisee = this.userRepository.findFranchiseeByEmail(userEmail);
+    const foundFranchisee =
+      this.userRepository.findFranchiseeByEmail(userEmail);
     return foundFranchisee;
   }
 
   async findFranchiseeByCpnj(franchiseeCnpj: string): Promise<IFranchisee> {
-    const foundFranchisee = this.userRepository.findFranchiseeByCpnj(franchiseeCnpj);
-    return foundFranchisee
+    const foundFranchisee =
+      this.userRepository.findFranchiseeByCpnj(franchiseeCnpj);
+    return foundFranchisee;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<IUser> {
@@ -66,6 +77,6 @@ export class UserService {
 
   async remove(id: string): Promise<IUser> {
     const deletedUser = await this.userRepository.remove(id);
-    return deletedUser
+    return deletedUser;
   }
 }
