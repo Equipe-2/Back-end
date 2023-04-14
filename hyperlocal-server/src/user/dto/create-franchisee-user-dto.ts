@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CNPJ } from 'src/utils/decorators/cnpj.decorator';
 
 export class CreateFranchiseeUserDto {
   @ApiProperty()
