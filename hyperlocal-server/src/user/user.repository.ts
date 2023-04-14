@@ -67,6 +67,24 @@ export class UserRepository {
     }
   }
 
+  async findFranchiseeByEmail(userEmail: string): Promise<IFranchisee> {
+    try {
+      const foundFranchisee = this.prisma.franchisee.findUnique({where: {personalEmail: userEmail}});
+      return foundFranchisee;
+    } catch (error) {
+     throw new Exception(Exceptions.DatabaseException); 
+    }
+  }
+
+  async findFranchiseeByCpnj(franchiseeCnpj: string): Promise<IFranchisee>{
+    try {
+      const foundFranchisee = this.prisma.franchisee.findUnique({where: {cnpj: franchiseeCnpj}});
+      return foundFranchisee;
+    } catch (error) {
+     throw new Exception(Exceptions.DatabaseException); 
+    }
+  }
+
   async update(userId, updateUserDto: UpdateUserDto): Promise<IUser> {
     try {
       const updatedUser = this.prisma.user.update({

@@ -42,6 +42,20 @@ export class UserController {
   @Post('/franchisee')
   async createFranchisee(@Body() createFranchiseeDto: CreateFranchiseeUserDto){
     try {
+      const cnpjRegistered = await this.userService.findFranchiseeByCpnj(createFranchiseeDto.cnpj);
+      if(cnpjRegistered){
+        throw new Exception(
+          Exceptions.InvalidData,
+          'This cnpj is already registered',
+        );
+      }
+      const emailRegistered = await this.userService.findFranchiseeByEmail(createFranchiseeDto.personalEmail);
+      if (emailRegistered){
+        throw new Exception(
+          Exceptions.InvalidData,
+          'This email is already registered',
+        );
+      }
       const createdUser = await this.userService.createFranchisee(createFranchiseeDto);
       return createdUser
     } catch (error) {
@@ -58,6 +72,8 @@ export class UserController {
       HandleException(error);
     }
   }
+
+
 
   @Get(':id')
   async findOne(@Param('id') userId: string): Promise<IUser> {
