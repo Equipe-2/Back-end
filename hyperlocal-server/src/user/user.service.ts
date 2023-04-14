@@ -31,11 +31,12 @@ export class UserService {
     return uniqueUser;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<IUser> {
+    return ;
   }
 
-  remove(id: string) {
-    return;
+  async remove(id: string): Promise<IUser> {
+    const deletedUser = await this.userRepository.remove(id);
+    return deletedUser
   }
 }

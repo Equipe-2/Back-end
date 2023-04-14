@@ -54,12 +54,21 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<IUser> {
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  async remove(@Param('id') id: string): Promise<String> {
+    try {
+      const uniqueUser = await this.userService.findOne(id);
+      if(!uniqueUser){
+        throw new Exception(Exceptions.InvalidData, 'User could not be deleted')
+      }
+      const deletedUser = await this.userService.remove(id);
+      return 'User deleted successfully';
+    } catch (error) {
+      HandleException(error);
+    }
   }
 }

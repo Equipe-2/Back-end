@@ -38,4 +38,15 @@ export class UserRepository {
       throw new Exception(Exceptions.DatabaseException)
     }
   }
+
+  async remove(userId: string): Promise<IUser> {
+    try {
+      const deletedUser = this.prisma.user.delete({
+        where: {id: userId},
+      });
+      return deletedUser;
+    } catch (error) {
+      throw new Exception(Exceptions.DatabaseException);
+    }
+  }
 }
