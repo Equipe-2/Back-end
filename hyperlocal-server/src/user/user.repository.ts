@@ -4,6 +4,7 @@ import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionHandler';
 import { IUser } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { IFranchisee} from './entities/franchisee-user.entity';
 
 @Injectable()
 export class UserRepository {
@@ -20,9 +21,26 @@ export class UserRepository {
     }
   }
 
+  async createFranchisee( userData: IUser, franchiseeData: IFranchisee) {
+    try {
+      const createdUser = await this.prisma.user.create({
+        data: userData
+      });
+      await this.prisma.franchisee.create({
+        data: franchiseeData
+      });
+      return createdUser;
+    } catch (error) {console.log(error)
+
+      throw new Exception(Exceptions.DatabaseException)
+    }
+  }
+
   async findAll(): Promise<IUser[]> {
     try {
-      const allUsers = await this.prisma.user.findMany();
+      const allUsers = await this.prisma.user.findMany(
+        
+      );
       return allUsers; 
     } catch (error) {
       throw new Exception(Exceptions.DatabaseException)
@@ -37,6 +55,15 @@ export class UserRepository {
       return uniqueUser;
     } catch (error) {
       throw new Exception(Exceptions.DatabaseException)
+    }
+  }
+
+  async findByEmail(userEmail: string): Promise<IUser | null> {
+    try {
+      const foundUser = this.prisma.user.findUnique({where: {email: userEmail}});
+      return foundUser;
+    } catch (error) {
+     throw new Exception(Exceptions.DatabaseException); 
     }
   }
 

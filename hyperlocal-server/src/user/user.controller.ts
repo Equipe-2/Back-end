@@ -14,6 +14,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { Exceptions, HandleException } from 'src/utils/exceptions/exceptionHandler';
 import { IUser } from './entities/user.entity';
 import { Exception } from 'src/utils/exceptions/exception';
+import { CreateFranchiseeUserDto } from './dto/create-franchisee-user-dto';
+import { IFranchiseeUser } from './entities/franchisee-user.entity';
 
 @Controller('user')
 @ApiTags('User')
@@ -23,6 +25,7 @@ export class UserController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<IUser> {
     try {
+      const 
       const createdUser = await this.userService.create(createUserDto);
       return createdUser
     } catch (error) {
@@ -30,8 +33,18 @@ export class UserController {
     }
   }
 
+  @Post('/franchisee')
+  async createFranchisee(@Body() createFranchiseeDto: CreateFranchiseeUserDto){
+    try {
+      const createdUser = await this.userService.createFranchisee(createFranchiseeDto);
+      return createdUser
+    } catch (error) {
+      HandleException(error)
+    }
+  }
+
   @Get()
-  async findAll(): Promise<IUser[]> {
+  async findAll() {
     try {
       const allUsers = await this.userService.findAll();
       return allUsers
