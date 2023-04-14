@@ -3,6 +3,9 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateFranchiseeUserDto{
     @ApiProperty()
+    name: string;
+
+    @ApiProperty()
     personalEmail: string;
 
     @ApiProperty()
