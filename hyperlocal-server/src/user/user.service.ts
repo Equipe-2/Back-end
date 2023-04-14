@@ -5,8 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { hash } from 'bcrypt';
 import { UserRepository } from './user.repository';
 import { IUser } from './entities/user.entity';
-import { Exception } from 'src/utils/exceptions/exception';
-import { Exceptions } from 'src/utils/exceptions/exceptionHandler';
 import { CreateFranchiseeUserDto } from './dto/create-franchisee-user-dto';
 import { generateRandomPassword } from 'src/utils/password-generator/password-generator';
 
@@ -20,6 +18,7 @@ export class UserService {
     createUserDto.password = hashedPassword;
     const user = { ...createUserDto, id: userId };
     const createdUser = await this.userRepository.create(user);
+    delete createdUser.password 
     return createdUser;
   }
 
@@ -44,7 +43,7 @@ export class UserService {
     return uniqueUser;
   }
 
-  async findByEmail(userEmail: string): Promise<IUser | null> {
+  async findByEmail(userEmail: string): Promise<IUser> {
     const foundUser = this.userRepository.findByEmail(userEmail);
     return foundUser;
   }
