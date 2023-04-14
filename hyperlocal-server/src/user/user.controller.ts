@@ -18,8 +18,6 @@ import {
 import { IUser } from './entities/user.entity';
 import { Exception } from 'src/utils/exceptions/exception';
 import { CreateFranchiseeUserDto } from './dto/create-franchisee-user-dto';
-import { IFranchiseeUser } from './entities/franchisee-user.entity';
-import { CNPJ } from 'src/utils/decorators/cnpj.decorator';
 
 @Controller('user')
 @ApiTags('User')
