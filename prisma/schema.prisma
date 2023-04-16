@@ -14,9 +14,10 @@ model Product {
   description String
   score Int
   price Int
-  start DateTime
-  end DateTime
+
 
   @@map("products")
 
 }
+  // start DateTime
+  // end DateTime
