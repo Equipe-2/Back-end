@@ -1,4 +1,4 @@
-export class Tier {
+export class ITier {
     id: string;
     name: string;
     scoreMin: number; 
