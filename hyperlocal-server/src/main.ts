@@ -13,6 +13,8 @@ async function bootstrap() {
     .setDescription('API de gestão de franqueados e administração de franquias')
     .setVersion('1.0.0')
     .addTag('User')
+    .addTag('Authorization')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

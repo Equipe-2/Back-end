@@ -14,7 +14,7 @@ export class AuthStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const user = await this.authService.getUser(payload.email);
+    const user = await this.authService.getUser(payload.id);
     return user;
   }
 }
