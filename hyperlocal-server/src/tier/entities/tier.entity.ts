@@ -1,4 +1,4 @@
-export class ITier {
+export interface ITier {
     id: string;
     name: string;
     scoreMin: number; 
