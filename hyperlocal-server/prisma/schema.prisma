@@ -35,8 +35,8 @@ model Tier {
   name String @unique
   scoreMin Int @unique @map("score_min")
   scoreMax Int @unique @map("score_max")
-  percentageSaas Decimal @map("percentage_saas")
-  percentageMDR Decimal @map("percentage_mdr")
+  percentageSaas Float @map("percentage_saas")
+  percentageMDR Float @map("percentage_mdr")
 
   @@map("tier")
 }
