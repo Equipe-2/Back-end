@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTierDto } from './dto/create-tier.dto';
 import { UpdateTierDto } from './dto/update-tier.dto';
+import { TierRepository } from './tier.repository';
 
 @Injectable()
 export class TierService {
+  constructor(private readonly tierRepository: TierRepository) {}
+
   create(createTierDto: CreateTierDto) {
-    return 'This action adds a new tier';
+    return 
   }
 
   findAll() {
-    return `This action returns all tier`;
+    return 
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} tier`;
+    return 
   }
 
   update(id: number, updateTierDto: UpdateTierDto) {
-    return `This action updates a #${id} tier`;
+    return 
   }
 
   remove(id: number) {
-    return `This action removes a #${id} tier`;
+    return 
   }
 }
