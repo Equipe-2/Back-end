@@ -41,9 +41,14 @@ export class TierController {
     }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTierDto: UpdateTierDto) {
-    return this.tierService.update(id, updateTierDto);
+  @Patch()
+  update(@Body() updateTierDto: UpdateTierDto) {
+try {
+  const updatedTier = this.tierService.update(updateTierDto);
+    return updatedTier
+} catch (error) {
+  HandleException(error)
+}
   }
 
   @Delete(':id')

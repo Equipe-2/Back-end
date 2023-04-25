@@ -26,8 +26,9 @@ export class TierService {
     return uniqueTier
   }
 
-  update(id: string, updateTierDto: UpdateTierDto) {
-    return 
+  async update( updateTierDto: UpdateTierDto) {
+    const updatedTier = await this.tierRepository.update(updateTierDto)
+    return updatedTier
   }
 
   remove(id: string) {
