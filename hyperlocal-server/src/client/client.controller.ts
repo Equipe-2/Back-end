@@ -21,25 +21,27 @@ export class ClientController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     try {
-      
+      const allClients = await this.clientService.findAll();
+      return allClients
     } catch (error) {
       HandleException(error)
     }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     try {
-      
+      const uniqueClient = await this.clientService.findOne(id)
+      return uniqueClient
     } catch (error) {
       HandleException(error)
     }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
+  async update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
     try {
       
     } catch (error) {
@@ -48,7 +50,7 @@ export class ClientController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     try {
       
     } catch (error) {

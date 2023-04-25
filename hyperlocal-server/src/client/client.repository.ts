@@ -22,15 +22,19 @@ export class ClientRepository {
 
     async findAll(){
         try {
-            
+            const allClients = await this.prisma.client.findMany()
+            return allClients
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }
     }
 
-    async findById(){
+    async findById(clientId: string){
         try {
-            
+            const uniqueClient = this.prisma.client.findUnique({
+                where: {id:clientId}
+            })
+            return uniqueClient
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }

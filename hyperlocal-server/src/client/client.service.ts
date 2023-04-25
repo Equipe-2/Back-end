@@ -17,11 +17,13 @@ export class ClientService {
   }
 
   async findAll() {
-    return `This action returns all client`;
+    const allClients = await this.clientRepository.findAll()
+    return allClients
   }
 
   async findOne(id: string) {
-    return `This action returns a #${id} client`;
+    const uniqueClient = await this.clientRepository.findById(id);
+    return uniqueClient;
   }
 
   async update( updateClientDto: UpdateClientDto) {
