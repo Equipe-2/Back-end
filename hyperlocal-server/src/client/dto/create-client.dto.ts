@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateClientDto {
     @ApiProperty()
@@ -7,6 +7,6 @@ export class CreateClientDto {
     @ApiProperty()
     name: string;
 
-    @ApiProperty()
+    @ApiPropertyOptional()
     endDate?: Date; 
 }

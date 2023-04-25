@@ -2,33 +2,57 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { HandleException } from 'src/utils/exceptions/exceptionHandler';
 
 @Controller('client')
+@ApiTags('Client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto) {
-    return this.clientService.create(createClientDto);
+  async create(@Body() createClientDto: CreateClientDto) {
+    try {
+      const createdClient = await this.clientService.create(createClientDto)
+      return createdClient
+    } catch (error) {
+      HandleException(error)
+    }
   }
 
   @Get()
   findAll() {
-    return this.clientService.findAll();
+    try {
+      
+    } catch (error) {
+      HandleException(error)
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.clientService.findOne(+id);
+    try {
+      
+    } catch (error) {
+      HandleException(error)
+    }
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientService.update(+id, updateClientDto);
+    try {
+      
+    } catch (error) {
+      HandleException(error)
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.clientService.remove(+id);
+    try {
+      
+    } catch (error) {
+      HandleException(error)
+    }
   }
 }
