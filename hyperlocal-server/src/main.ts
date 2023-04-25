@@ -12,8 +12,9 @@ async function bootstrap() {
     .setTitle('Hyperlocal Franquias')
     .setDescription('API de gestão de franqueados e administração de franquias')
     .setVersion('1.0.0')
-    .addTag('User')
     .addTag('Authorization')
+    .addTag('User')
+    .addTag('Tier')
     .addBearerAuth()
     .build();
 
