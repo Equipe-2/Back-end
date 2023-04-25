@@ -32,6 +32,7 @@ export class ClientService {
   }
 
   async remove(id: string) {
-    return `This action removes a #${id} client`;
+    const deletedClient = await this.clientRepository.remove(id)
+    return deletedClient;
   }
 }

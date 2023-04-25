@@ -53,9 +53,12 @@ export class ClientRepository {
         }
     }
 
-    async remove(){
+    async remove(clientId: string ){
         try {
-            
+            const deletedClient = this.prisma.client.delete({
+                where: {id: clientId}
+            })
+            return deletedClient
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }
