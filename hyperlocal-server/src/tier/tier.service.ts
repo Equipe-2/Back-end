@@ -4,7 +4,8 @@ import { UpdateTierDto } from './dto/update-tier.dto';
 import { TierRepository } from './tier.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { ITier } from './entities/tier.entity';
-import { HandleException } from 'src/utils/exceptions/exceptionHandler';
+import { Exceptions, HandleException } from 'src/utils/exceptions/exceptionHandler';
+import { Exception } from 'src/utils/exceptions/exception';
 
 @Injectable()
 export class TierService {
@@ -31,7 +32,8 @@ export class TierService {
     return updatedTier
   }
 
-  remove(id: string) {
-    return 
+  async remove(id: string): Promise<ITier> {
+    const deletedTier  = await this.tierRepository.remove(id)
+    return deletedTier
   }
 }

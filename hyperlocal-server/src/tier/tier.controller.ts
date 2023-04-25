@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TierService } from './tier.service';
 import { CreateTierDto } from './dto/create-tier.dto';
 import { UpdateTierDto } from './dto/update-tier.dto';
-import { HandleException } from 'src/utils/exceptions/exceptionHandler';
+import { Exceptions, HandleException } from 'src/utils/exceptions/exceptionHandler';
 import { ITier } from './entities/tier.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { Exception } from 'src/utils/exceptions/exception';
 
 @Controller('tier')
 @ApiTags('Tier')
@@ -42,9 +43,9 @@ export class TierController {
   }
 
   @Patch()
-  update(@Body() updateTierDto: UpdateTierDto) {
+  async update(@Body() updateTierDto: UpdateTierDto) {
 try {
-  const updatedTier = this.tierService.update(updateTierDto);
+  const updatedTier = await this.tierService.update(updateTierDto);
     return updatedTier
 } catch (error) {
   HandleException(error)
@@ -52,7 +53,12 @@ try {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tierService.remove(id);
+  async remove(@Param('id') id: string) {
+    try {
+      await this.tierService.remove(id);
+      return "Tier deleted successfully"
+    } catch (error) {
+      HandleException(error)
+    }
   }
 }

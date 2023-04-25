@@ -5,6 +5,7 @@ import { Exception } from "src/utils/exceptions/exception";
 import { Exceptions, HandleException } from "src/utils/exceptions/exceptionHandler";
 import { ITier } from "./entities/tier.entity";
 import { UpdateTierDto } from "./dto/update-tier.dto";
+import { Console } from "console";
 
 
 @Injectable()
@@ -49,6 +50,17 @@ export class TierRepository {
                 data: updateTierDto
             })
             return updatedTier
+        } catch (error) {
+            throw new Exception(Exceptions.DatabaseException)
+        }
+    }
+
+    async remove(tierId: string): Promise<ITier>{
+        try {
+            const deletedTier = await this.prisma.tier.delete({
+                where: {id: tierId}
+            })
+            return deletedTier
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }
