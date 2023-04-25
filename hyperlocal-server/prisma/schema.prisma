@@ -40,3 +40,13 @@ model Tier {
 
   @@map("tier")
 }
+
+model Client {
+  id String @id
+  systemId Int @map("system_id")
+  name String
+  startDate DateTime @map("start_date")
+  endDate DateTime? @map("end_date")
+
+  @@map("client")
+}
