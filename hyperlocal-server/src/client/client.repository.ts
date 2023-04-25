@@ -3,6 +3,7 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { Exception } from "src/utils/exceptions/exception";
 import { Exceptions } from "src/utils/exceptions/exceptionHandler";
 import { IClient } from "./entities/client.entity";
+import { UpdateClientDto } from "./dto/update-client.dto";
 
 
 @Injectable()
@@ -31,7 +32,7 @@ export class ClientRepository {
 
     async findById(clientId: string){
         try {
-            const uniqueClient = this.prisma.client.findUnique({
+            const uniqueClient = await this.prisma.client.findUnique({
                 where: {id:clientId}
             })
             return uniqueClient
@@ -40,9 +41,13 @@ export class ClientRepository {
         }
     }
 
-    async update(){
+    async update(updateClientDto:UpdateClientDto){
         try {
-            
+            const updatedClient = await this.prisma.client.update({
+                where: {id: updateClientDto.id},
+                data: updateClientDto
+            })
+            return updatedClient
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }

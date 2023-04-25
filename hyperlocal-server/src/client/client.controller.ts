@@ -40,10 +40,11 @@ export class ClientController {
     }
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
+  @Patch()
+  async update( @Body() updateClientDto: UpdateClientDto) {
     try {
-      
+      const updatedClient = await this.clientService.update(updateClientDto);
+      return updatedClient
     } catch (error) {
       HandleException(error)
     }

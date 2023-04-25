@@ -27,7 +27,8 @@ export class ClientService {
   }
 
   async update( updateClientDto: UpdateClientDto) {
-    return 
+    const updatedClient = await this.clientRepository.update(updateClientDto);
+    return updatedClient
   }
 
   async remove(id: string) {
