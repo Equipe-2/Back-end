@@ -15,8 +15,9 @@ export class TierService {
     return await this.tierRepository.create(tierData);
   }
 
-  findAll() {
-    return 
+  async findAll() {
+    const allTiers = await this.tierRepository.findAll()
+    return allTiers
   }
 
   findOne(id: string) {

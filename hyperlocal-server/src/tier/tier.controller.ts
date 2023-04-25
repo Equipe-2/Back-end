@@ -12,9 +12,9 @@ export class TierController {
   constructor(private readonly tierService: TierService) {}
 
   @Post()
-  create(@Body() createTierDto: CreateTierDto): Promise<ITier> {
+  async create(@Body() createTierDto: CreateTierDto): Promise<ITier> {
     try {
-      const createdTier = this.tierService.create(createTierDto);
+      const createdTier = await this.tierService.create(createTierDto);
       return createdTier
     } catch (error) {
       HandleException(error)
@@ -22,8 +22,13 @@ export class TierController {
   }
 
   @Get()
-  findAll() {
-    return this.tierService.findAll();
+  async findAll() {
+    try {
+      const allTiers = await this.tierService.findAll();
+      return allTiers
+    } catch (error) {
+      HandleException(error)
+    }
   }
 
   @Get(':id')

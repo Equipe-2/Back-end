@@ -20,4 +20,13 @@ export class TierRepository {
             throw new Exception(Exceptions.DatabaseException);
         }
     }
+
+    async findAll(): Promise<ITier[]>{
+        try {
+            const allTiers = await this.prisma.tier.findMany()
+            return allTiers
+        } catch (error) {
+            throw new Exception(Exceptions.DatabaseException)
+        }
+    }
 }
