@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateTierDto } from "./dto/create-tier.dto";
 import { Exception } from "src/utils/exceptions/exception";
-import { Exceptions } from "src/utils/exceptions/exceptionHandler";
+import { Exceptions, HandleException } from "src/utils/exceptions/exceptionHandler";
 import { ITier } from "./entities/tier.entity";
 
 
@@ -25,6 +25,17 @@ export class TierRepository {
         try {
             const allTiers = await this.prisma.tier.findMany()
             return allTiers
+        } catch (error) {
+            throw new Exception(Exceptions.DatabaseException)
+        }
+    }
+
+    async findById(tierId: string): Promise<ITier>{
+        try {
+            const uniqueTier = await this.prisma.tier.findUnique({
+                where: {id: tierId}
+            })
+            return uniqueTier
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }

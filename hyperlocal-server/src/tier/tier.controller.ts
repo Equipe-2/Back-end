@@ -32,8 +32,13 @@ export class TierController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tierService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    try {
+      const uniqueTier = await this.tierService.findOne(id);
+      return uniqueTier
+    } catch (error) {
+      HandleException(error)
+    }
   }
 
   @Patch(':id')
