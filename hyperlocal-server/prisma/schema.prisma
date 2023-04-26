@@ -18,6 +18,20 @@ model User {
   @@map("user")
 }
 
+model Product {
+  id String @id 
+  name String 
+  plan String
+  description String
+  score Int
+  price Int
+  startDate DateTime
+  endDate DateTime?
+
+  @@map("products")
+
+}
+
 model Franchisee{
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String  @unique @id
