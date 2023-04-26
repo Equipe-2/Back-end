@@ -18,6 +18,20 @@ model User {
   @@map("user")
 }
 
+model Product {
+  id String @id 
+  name String 
+  plan String
+  description String
+  score Int
+  price Int
+  startDate DateTime
+  endDate DateTime?
+
+  @@map("products")
+
+}
+
 model Franchisee{
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String  @unique @id
@@ -28,4 +42,25 @@ model Franchisee{
   address String
 
   @@map("franchisee")
+}
+
+model Tier {
+  id String @id
+  name String @unique
+  scoreMin Int @unique @map("score_min")
+  scoreMax Int @unique @map("score_max")
+  percentageSaas Float @map("percentage_saas")
+  percentageMDR Float @map("percentage_mdr")
+
+  @@map("tier")
+}
+
+model Client {
+  id String @id
+  systemId Int @map("system_id")
+  name String
+  startDate DateTime @map("start_date")
+  endDate DateTime? @map("end_date")
+
+  @@map("client")
 }

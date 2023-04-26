@@ -6,11 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   Exceptions,
   HandleException,
@@ -18,6 +19,7 @@ import {
 import { IUser } from './entities/user.entity';
 import { Exception } from 'src/utils/exceptions/exception';
 import { CreateFranchiseeUserDto } from './dto/create-franchisee-user-dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 @ApiTags('User')
@@ -44,6 +46,8 @@ export class UserController {
   }
 
   @Post('/franchisee')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async createFranchisee(@Body() createFranchiseeDto: CreateFranchiseeUserDto) {
     try {
       const cnpjRegistered = await this.userService.findFranchiseeByCpnj(
@@ -74,6 +78,8 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async findAll(): Promise<IUser[]> {
     try {
       const allUsers = await this.userService.findAll();
@@ -87,6 +93,8 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async findOne(@Param('id') userId: string): Promise<IUser> {
     try {
       const uniqueUser = await this.userService.findOne(userId);
@@ -103,6 +111,8 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async update(
     @Param('id') userId: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -123,6 +133,8 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async remove(@Param('id') userId: string): Promise<String> {
     try {
       const uniqueUser = await this.userService.findOne(userId);
