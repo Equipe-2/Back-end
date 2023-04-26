@@ -12,7 +12,7 @@ export class ClientRepository {
 
     async create(clientData: IClient){
         try {
-            const createdClient = await this.prisma.client.create({
+            const createdClient = await this.prisma.clients.create({
                 data: clientData
             })
             return createdClient
@@ -23,7 +23,7 @@ export class ClientRepository {
 
     async findAll(){
         try {
-            const allClients = await this.prisma.client.findMany()
+            const allClients = await this.prisma.clients.findMany()
             return allClients
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
@@ -32,7 +32,7 @@ export class ClientRepository {
 
     async findById(clientId: string){
         try {
-            const uniqueClient = await this.prisma.client.findUnique({
+            const uniqueClient = await this.prisma.clients.findUnique({
                 where: {id:clientId}
             })
             return uniqueClient
@@ -43,7 +43,7 @@ export class ClientRepository {
 
     async update(updateClientDto:UpdateClientDto){
         try {
-            const updatedClient = await this.prisma.client.update({
+            const updatedClient = await this.prisma.clients.update({
                 where: {id: updateClientDto.id},
                 data: updateClientDto
             })
@@ -55,7 +55,7 @@ export class ClientRepository {
 
     async remove(clientId: string ){
         try {
-            const deletedClient = this.prisma.client.delete({
+            const deletedClient = this.prisma.clients.delete({
                 where: {id: clientId}
             })
             return deletedClient
