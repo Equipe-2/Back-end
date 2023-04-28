@@ -8,16 +8,16 @@ import { ClientRepository } from './client.repository';
 export class ClientService {
   constructor(private readonly clientRepository: ClientRepository) {}
 
-  async create(createClientDto: CreateClientDto) {
+  async create(createClientDto: CreateClientDto, userId: string) {
     const clientId = uuidv4()
     const currentDate = new Date();
-    const clientData = {...createClientDto, id: clientId, startDate: currentDate}
+    const clientData = {...createClientDto, id: clientId, startDate: currentDate, franchiseeId: userId}
     const createdClient = await this.clientRepository.create(clientData);
     return createdClient
   }
 
-  async findAll() {
-    const allClients = await this.clientRepository.findAll()
+  async findAll(userId: string) {
+    const allClients = await this.clientRepository.findAll(userId)
     return allClients
   }
 

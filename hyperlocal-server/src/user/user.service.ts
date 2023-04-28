@@ -26,6 +26,7 @@ export class UserService {
   async createFranchisee(createFranchiseeDto: CreateFranchiseeUserDto) {
     const userId = uuidv4();
     const userPassoword = await generateRandomPassword(6);
+    console.log(userPassoword)
     const hashedPassword = await hash(userPassoword, 10);
     const userData = {
       id: userId,
