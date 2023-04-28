@@ -17,13 +17,16 @@ export class ClientRepository {
             })
             return createdClient
         } catch (error) {
+            console.log(error)
             throw new Exception(Exceptions.DatabaseException)
         }
     }
 
-    async findAll(){
+    async findAll(userId: string){
         try {
-            const allClients = await this.prisma.clients.findMany()
+            const allClients = await this.prisma.client.findMany({
+                where:{franchiseeId: userId}
+            })
             return allClients
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)

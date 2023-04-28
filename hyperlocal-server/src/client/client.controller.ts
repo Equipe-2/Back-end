@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { HandleException } from 'src/utils/exceptions/exceptionHandler';
+import { userLogged } from 'src/utils/decorators/user-logged.decorator';
+import { IUser } from 'src/user/entities/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('client')
 @ApiTags('Client')
@@ -11,9 +14,12 @@ export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post()
-  async create(@Body() createClientDto: CreateClientDto) {
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  async create(@userLogged() userLogged: IUser, @Body() createClientDto: CreateClientDto) {
     try {
-      const createdClient = await this.clientService.create(createClientDto)
+      console.log(userLogged)
+      const createdClient = await this.clientService.create(createClientDto, userLogged.id)
       return createdClient
     } catch (error) {
       HandleException(error)
@@ -21,9 +27,11 @@ export class ClientController {
   }
 
   @Get()
-  async findAll() {
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
+  async findAll(@userLogged() userLogged: IUser) {
     try {
-      const allClients = await this.clientService.findAll();
+      const allClients = await this.clientService.findAll(userLogged.id);
       return allClients
     } catch (error) {
       HandleException(error)
@@ -31,6 +39,8 @@ export class ClientController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async findOne(@Param('id') id: string) {
     try {
       const uniqueClient = await this.clientService.findOne(id)
@@ -41,6 +51,8 @@ export class ClientController {
   }
 
   @Patch()
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async update( @Body() updateClientDto: UpdateClientDto) {
     try {
       const updatedClient = await this.clientService.update(updateClientDto);
@@ -51,6 +63,8 @@ export class ClientController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth()
   async remove(@Param('id') id: string) {
     try {
       await this.clientService.remove(id)
