@@ -56,7 +56,7 @@ model Tier {
   @@map("tier")
 }
 
-model Clients {
+model Client {
   id String @id
   systemId Int @map("system_id")
   franchisee Franchisee @relation(fields:[franchiseeId], references: [userId], name:"franchisee_clients", onDelete: Cascade)
@@ -65,5 +65,5 @@ model Clients {
   startDate DateTime @map("start_date")
   endDate DateTime? @map("end_date")
 
-  @@map("clients")
+  @@map("client")
 }
