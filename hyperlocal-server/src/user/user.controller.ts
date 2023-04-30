@@ -20,6 +20,7 @@ import { IUser } from './entities/user.entity';
 import { Exception } from 'src/utils/exceptions/exception';
 import { CreateFranchiseeUserDto } from './dto/create-franchisee-user-dto';
 import { AuthGuard } from '@nestjs/passport';
+import { IsAdminAuthorization } from 'src/utils/decorators/is-admin.decorator';
 
 @Controller('user')
 @ApiTags('User')
@@ -46,7 +47,7 @@ export class UserController {
   }
 
   @Post('/franchisee')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), IsAdminAuthorization)
   @ApiBearerAuth()
   async createFranchisee(@Body() createFranchiseeDto: CreateFranchiseeUserDto) {
     try {
