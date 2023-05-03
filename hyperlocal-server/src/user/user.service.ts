@@ -8,10 +8,11 @@ import { IUser } from './entities/user.entity';
 import { CreateFranchiseeUserDto } from './dto/create-franchisee-user-dto';
 import { generateRandomPassword } from 'src/utils/password-generator/password-generator';
 import { IFranchisee } from './entities/franchisee-user.entity';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository, private readonly emailService: EmailService) {}
 
   async create(createUserDto: CreateUserDto) {
     const userId = uuidv4();
@@ -26,7 +27,9 @@ export class UserService {
   async createFranchisee(createFranchiseeDto: CreateFranchiseeUserDto) {
     const userId = uuidv4();
     const userPassoword = await generateRandomPassword(6);
-    console.log(userPassoword)
+    console.log("foi")
+    await this.emailService.sendFranchiseeWelcomeMail(createFranchiseeDto.personalEmail, userPassoword);
+    console.log("foi2")
     const hashedPassword = await hash(userPassoword, 10);
     const userData = {
       id: userId,

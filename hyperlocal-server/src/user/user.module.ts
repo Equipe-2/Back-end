@@ -4,10 +4,11 @@ import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
 import { DatabaseModule } from 'src/prisma/prisma.module';
 import { PassportModule } from '@nestjs/passport';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
-  imports: [DatabaseModule, PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [DatabaseModule, EmailModule ,PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [UserController],
-  providers: [UserService, UserRepository],
+  providers: [UserService, UserRepository,],
 })
 export class UserModule {}
