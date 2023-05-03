@@ -2,20 +2,20 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { Exception } from "src/utils/exceptions/exception";
 import { Exceptions } from "src/utils/exceptions/exceptionHandler";
-import { IClient } from "./entities/client.entity";
-import { UpdateClientDto } from "./dto/update-client.dto";
+import { ICustomer } from "./entities/customer.entity";
+import { UpdateCustomerDto } from "./dto/update-customer.dto";
 
 
 @Injectable()
-export class ClientRepository {
+export class CustomerRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    async create(clientData: IClient){
+    async create(customerData: ICustomer){
         try {
-            const createdClient = await this.prisma.costumer.create({
-                data: clientData
+            const createdCustomer = await this.prisma.customer.create({
+                data: customerData
             })
-            return createdClient
+            return createdCustomer
         } catch (error) {
             console.log(error)
             throw new Exception(Exceptions.DatabaseException)
@@ -24,44 +24,44 @@ export class ClientRepository {
 
     async findAll(userId: string){
         try {
-            const allClients = await this.prisma.costumer.findMany({
+            const allCustomers = await this.prisma.customer.findMany({
                 where:{franchiseeId: userId}
             })
-            return allClients
+            return allCustomers
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }
     }
 
-    async findById(clientId: string){
+    async findById(customerId: string){
         try {
-            const uniqueClient = await this.prisma.costumer.findUnique({
-                where: {id:clientId}
+            const uniqueCustomer = await this.prisma.customer.findUnique({
+                where: {id:customerId}
             })
-            return uniqueClient
+            return uniqueCustomer
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }
     }
 
-    async update(updateClientDto:UpdateClientDto){
+    async update(updateCustomerDto:UpdateCustomerDto){
         try {
-            const updatedClient = await this.prisma.costumer.update({
-                where: {id: updateClientDto.id},
-                data: updateClientDto
+            const updatedCustomer = await this.prisma.customer.update({
+                where: {id: updateCustomerDto.id},
+                data: updateCustomerDto
             })
-            return updatedClient
+            return updatedCustomer
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }
     }
 
-    async remove(clientId: string ){
+    async remove(customerId: string ){
         try {
-            const deletedClient = this.prisma.costumer.delete({
-                where: {id: clientId}
+            const deletedCustomer = this.prisma.customer.delete({
+                where: {id: customerId}
             })
-            return deletedClient
+            return deletedCustomer
         } catch (error) {
             throw new Exception(Exceptions.DatabaseException)
         }

@@ -1,26 +1,26 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { ClientService } from './client.service';
-import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
+import { CustomerService } from './customer.service';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { HandleException } from 'src/utils/exceptions/exceptionHandler';
 import { userLogged } from 'src/utils/decorators/user-logged.decorator';
 import { IUser } from 'src/user/entities/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('client')
-@ApiTags('Client')
-export class ClientController {
-  constructor(private readonly clientService: ClientService) {}
+@Controller('customer')
+@ApiTags('Customer')
+export class CustomerController {
+  constructor(private readonly customerService: CustomerService) {}
 
   @Post()
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  async create(@userLogged() userLogged: IUser, @Body() createClientDto: CreateClientDto) {
+  async create(@userLogged() userLogged: IUser, @Body() createCustomerDto: CreateCustomerDto) {
     try {
       console.log(userLogged)
-      const createdClient = await this.clientService.create(createClientDto, userLogged.id)
-      return createdClient
+      const createdCustomer = await this.customerService.create(createCustomerDto, userLogged.id)
+      return createdCustomer
     } catch (error) {
       HandleException(error)
     }
@@ -31,8 +31,8 @@ export class ClientController {
   @ApiBearerAuth()
   async findAll(@userLogged() userLogged: IUser) {
     try {
-      const allClients = await this.clientService.findAll(userLogged.id);
-      return allClients
+      const allCustomers = await this.customerService.findAll(userLogged.id);
+      return allCustomers
     } catch (error) {
       HandleException(error)
     }
@@ -43,8 +43,8 @@ export class ClientController {
   @ApiBearerAuth()
   async findOne(@Param('id') id: string) {
     try {
-      const uniqueClient = await this.clientService.findOne(id)
-      return uniqueClient
+      const uniqueCustomer = await this.customerService.findOne(id)
+      return uniqueCustomer
     } catch (error) {
       HandleException(error)
     }
@@ -53,10 +53,10 @@ export class ClientController {
   @Patch()
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  async update( @Body() updateClientDto: UpdateClientDto) {
+  async update( @Body() updateCustomerDto: UpdateCustomerDto) {
     try {
-      const updatedClient = await this.clientService.update(updateClientDto);
-      return updatedClient
+      const updatedCustomer = await this.customerService.update(updateCustomerDto);
+      return updatedCustomer
     } catch (error) {
       HandleException(error)
     }
@@ -67,8 +67,8 @@ export class ClientController {
   @ApiBearerAuth()
   async remove(@Param('id') id: string) {
     try {
-      await this.clientService.remove(id)
-      return "Client deleted successfully"
+      await this.customerService.remove(id)
+      return "Customer deleted successfully"
     } catch (error) {
       HandleException(error)
     }

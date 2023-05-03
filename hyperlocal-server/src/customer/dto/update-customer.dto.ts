@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 
-class UpdateClient {
+class UpdateCustomer {
     systemId: number; 
 
     name: string;
@@ -10,6 +10,6 @@ class UpdateClient {
     endDate: Date; 
 }
 
-export class UpdateClientDto extends PartialType(UpdateClient) {
+export class UpdateCustomerDto extends PartialType(UpdateCustomer) {
     id: string
 }

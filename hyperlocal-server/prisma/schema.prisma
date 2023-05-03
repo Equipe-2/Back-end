@@ -40,7 +40,7 @@ model Franchisee{
   phoneNumber String @map("phone_number")
   city String
   address String
-  clients Costumer[] @relation(name: "franchisee_clients")
+  clients Customer[] @relation(name: "franchisee_clients")
 
   @@map("franchisee")
 }
@@ -56,7 +56,7 @@ model Tier {
   @@map("tier")
 }
 
-model Costumer {
+model Customer {
   id String @id
   systemId Int @map("system_id")
   franchisee Franchisee @relation(fields:[franchiseeId], references: [userId], name:"franchisee_clients", onDelete: Cascade)
@@ -65,5 +65,5 @@ model Costumer {
   startDate DateTime @map("start_date")
   endDate DateTime? @map("end_date")
 
-  @@map("costumer")
+  @@map("customer")
 }
