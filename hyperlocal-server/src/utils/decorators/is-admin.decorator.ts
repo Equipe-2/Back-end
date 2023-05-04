@@ -14,6 +14,6 @@ export class IsAdminAuthorization implements CanActivate {
       return true;
     }
 
-    throw new UnauthorizedException( 'user do not have permission to access this route' );
+    throw new UnauthorizedException( 'User do not have permission to access this route' );
   }
 }

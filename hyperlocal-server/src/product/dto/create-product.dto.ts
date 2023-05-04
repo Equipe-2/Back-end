@@ -4,24 +4,43 @@ export class CreateProductDto {
   @ApiProperty()
   id: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: "product name",
+    default: "HYPERLOCAL BANK WOW"
+  })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: "Product segment",
+    default: "PAYMENTS"
+  })
   plan: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: "Product description",
+    default: "HYPERLOCAL BANK WOW (NOVO CREDENCIAMENTO WOW)"
+  })
   description: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: "Product score value",
+    default: 13
+  })
   score: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: "Product price",
+    default: 1000.00
+  })
   price: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: "Product start date"
+  })
   startDate: Date;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({
+    description: "Product end date (this filed is optional)"
+  })
   endDate?: Date;
 };
